@@ -1,33 +1,33 @@
-import { AxiosError } from 'axios'
+import { AxiosError } from "axios";
 
 export class ConnectionError extends Error {
   constructor(message: string) {
-    super(message)
-    this.name = 'ConnectionError'
+    super(message);
+    this.name = "ConnectionError";
   }
 }
 
 export class BitcoinRpcError extends Error {
   constructor(readonly code: RPCErrorCode, message: string) {
-    super(message)
-    this.name = 'BitcoinRpcError'
+    super(message);
+    this.name = "BitcoinRpcError";
   }
 }
 
 export class AuthError extends Error {
   constructor() {
-    super('Invalid credentials')
-    this.name = 'AuthError'
+    super("Invalid credentials");
+    this.name = "AuthError";
   }
 }
 
 export class UnknownError extends Error {
   constructor(axiosError: AxiosError) {
-    super(axiosError.message)
+    super(axiosError.message);
     if (Error.captureStackTrace) {
-      Error.captureStackTrace(this, UnknownError)
+      Error.captureStackTrace(this, UnknownError);
     }
-    this.name = 'UnknownError'
+    this.name = "UnknownError";
   }
 }
 // Taken from: https://github.com/bitcoin/bitcoin/blob/master/src/rpc/protocol.h#L32L87
