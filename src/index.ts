@@ -1,12 +1,12 @@
-export type { ClientOption } from "./client";
-export { Client } from "./client";
+export type { ClientOption } from "./client.js";
+export { Client } from "./client.js";
 export {
   ConnectionError,
   BitcoinRpcError,
   UnknownError,
   RPCErrorCode,
   AuthError,
-} from "./errors";
+} from "./errors.js";
 
 /** Type aliases */
 

@@ -3,6 +3,9 @@ import { AxiosError } from "axios";
 export class ConnectionError extends Error {
   constructor(message: string) {
     super(message);
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this, this.constructor);
+    }
     this.name = "ConnectionError";
   }
 }
@@ -10,6 +13,9 @@ export class ConnectionError extends Error {
 export class BitcoinRpcError extends Error {
   constructor(readonly code: RPCErrorCode, message: string) {
     super(message);
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this, this.constructor);
+    }
     this.name = "BitcoinRpcError";
   }
 }
@@ -17,6 +23,9 @@ export class BitcoinRpcError extends Error {
 export class AuthError extends Error {
   constructor() {
     super("Invalid credentials");
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this, this.constructor);
+    }
     this.name = "AuthError";
   }
 }
@@ -25,7 +34,7 @@ export class UnknownError extends Error {
   constructor(axiosError: AxiosError) {
     super(axiosError.message);
     if (Error.captureStackTrace) {
-      Error.captureStackTrace(this, UnknownError);
+      Error.captureStackTrace(this, this.constructor);
     }
     this.name = "UnknownError";
   }
@@ -59,6 +68,11 @@ export enum RPCErrorCode {
   RPC_IN_WARMUP = -28, //!< Client still warming up
   RPC_METHOD_DEPRECATED = -32, //!< RPC method is deprecated
 
+  //! Aliases for backward compatibility
+  RPC_TRANSACTION_ERROR = RPC_VERIFY_ERROR,
+  RPC_TRANSACTION_REJECTED = RPC_VERIFY_REJECTED,
+  RPC_TRANSACTION_ALREADY_IN_CHAIN = RPC_VERIFY_ALREADY_IN_CHAIN,
+
   //! P2P client errors
   RPC_CLIENT_NOT_CONNECTED = -9, //!< Bitcoin is not connected
   RPC_CLIENT_IN_INITIAL_DOWNLOAD = -10, //!< Still downloading initial blocks
@@ -67,6 +81,7 @@ export enum RPCErrorCode {
   RPC_CLIENT_NODE_NOT_CONNECTED = -29, //!< Node to disconnect not found in connected nodes
   RPC_CLIENT_INVALID_IP_OR_SUBNET = -30, //!< Invalid IP/Subnet
   RPC_CLIENT_P2P_DISABLED = -31, //!< No valid connection manager instance found
+  RPC_CLIENT_NODE_CAPACITY_REACHED = -34, //!< Max number of outbound or block-relay connections already open
 
   //! Chain errors
   RPC_CLIENT_MEMPOOL_DISABLED = -33, //!< No mempool instance found
@@ -83,4 +98,11 @@ export enum RPCErrorCode {
   RPC_WALLET_ALREADY_UNLOCKED = -17, //!< Wallet is already unlocked
   RPC_WALLET_NOT_FOUND = -18, //!< Invalid wallet specified
   RPC_WALLET_NOT_SPECIFIED = -19, //!< No wallet specified (error when there are multiple wallets loaded)
+  RPC_WALLET_ALREADY_LOADED = -35, //!< This same wallet is already loaded
+
+  //! Backwards compatible aliases
+  RPC_WALLET_INVALID_ACCOUNT_NAME = RPC_WALLET_INVALID_LABEL_NAME,
+
+  //! Unused reserved codes, kept around for backwards compatibility. Do not reuse.
+  RPC_FORBIDDEN_BY_SAFE_MODE = -2, //!< Server is in safe mode, and command is not allowed in safe mode
 }

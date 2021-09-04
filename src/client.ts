@@ -48,7 +48,7 @@ import {
   BitcoinRpcError,
   ConnectionError,
   UnknownError,
-} from "./errors";
+} from "./errors.js";
 
 type JsonRpcResponse<T> = {
   jsonrpc: string;

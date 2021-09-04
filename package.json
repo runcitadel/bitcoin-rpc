@@ -1,6 +1,6 @@
 {
   "name": "@runcitadel/bitcoin-rpc",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "The library used by Citadel for connecting to Bitcoin Core",
   "repository": "https://github.com/runcitadel/bitcoin-rpc",
   "main": "./dist/index.js",
